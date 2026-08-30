@@ -9,6 +9,12 @@ if(${PROJECT_SOURCE_DIR} MATCHES ${PROJECT_BINARY_DIR})
 	message(FATAL_ERROR "In-source builds will bring you a world of pain. Please make a separate directory to invoke CMake from.")
 endif()
 
+# Android support
+if(ANDROID)
+	message(STATUS "Building for Android: ${ANDROID_ABI}")
+	add_definitions(-DANDROID -DHAVE_SDL -DHAVE_THREADS -DUNIXCOMMON -DLINUX)
+endif()
+
 # Set up CMAKE path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 

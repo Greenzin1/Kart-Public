@@ -146,6 +146,28 @@ if(${SDL2_FOUND})
 
 	add_executable(SRB2SDL2 MACOSX_BUNDLE WIN32 ${SRB2_SDL2_TOTAL_SOURCES})
 	set_target_properties(SRB2SDL2 PROPERTIES OUTPUT_NAME ${SRB2_SDL2_EXE_NAME})
+	
+	# Android: build as shared library
+	if(ANDROID)
+		add_library(srb2kart SHARED ${SRB2_SDL2_TOTAL_SOURCES})
+		set_target_properties(srb2kart PROPERTIES OUTPUT_NAME srb2kart)
+		target_link_libraries(srb2kart PRIVATE
+			${SDL2_LIBRARIES}
+			${PNG_LIBRARIES}
+			${ZLIB_LIBRARIES}
+			android
+			log
+			EGL
+			GLESv2
+			dl
+		)
+		target_compile_definitions(srb2kart PRIVATE
+			-DHAVE_SDL
+			-DHAVE_THREADS
+			-DANDROID
+		)
+		return()
+	endif()
 
 	if(${CMAKE_SYSTEM} MATCHES Darwin)
 		find_library(CORE_FOUNDATION_LIBRARY "CoreFoundation")
