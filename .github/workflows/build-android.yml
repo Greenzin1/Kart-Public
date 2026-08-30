@@ -53,6 +53,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release \
           -DSRB2_CONFIG_USE_INTERNAL_LIBRARIES=ON \
           -DSRB2_CONFIG_SDL2_USEMIXER=OFF \
+          -DSRB2_CONFIG_HAVE_CURL=OFF \
           -DCMAKE_C_FLAGS="-O2 -DNDEBUG" \
           -G Ninja
         cmake --build build-android-arm64 --parallel $(nproc)
@@ -68,6 +69,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release \
           -DSRB2_CONFIG_USE_INTERNAL_LIBRARIES=ON \
           -DSRB2_CONFIG_SDL2_USEMIXER=OFF \
+          -DSRB2_CONFIG_HAVE_CURL=OFF \
           -DCMAKE_C_FLAGS="-O2 -DNDEBUG" \
           -G Ninja
         cmake --build build-android-armv7 --parallel $(nproc)
