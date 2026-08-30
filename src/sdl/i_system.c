@@ -109,7 +109,7 @@ typedef LPVOID (WINAPI *p_MapViewOfFile) (HANDLE, DWORD, DWORD, DWORD, SIZE_T);
 #endif
 
 #ifndef NOMUMBLE
-#ifdef __linux__ // need -lrt
+#if defined(__linux__) && !defined(ANDROID) // need -lrt, shm_open unavailable on Android
 #include <sys/mman.h>
 #ifdef MAP_FAILED
 #define HAVE_SHM
