@@ -135,10 +135,11 @@ jobs:
     - name: Build APK
       working-directory: android
       run: |
+        gradle wrapper --gradle-version 8.5
         mkdir -p app/src/main/jniLibs/arm64-v8a
         mkdir -p app/src/main/jniLibs/armeabi-v7a
-        cp ../build-android-arm64/bin/*.so app/src/main/jniLibs/arm64-v8a/ || true
-        cp ../build-android-armv7/bin/*.so app/src/main/jniLibs/armeabi-v7a/ || true
+        cp ../build-android-arm64/src/sdl/libsrb2kart.so app/src/main/jniLibs/arm64-v8a/ || true
+        cp ../build-android-armv7/src/sdl/libsrb2kart.so app/src/main/jniLibs/armeabi-v7a/ || true
         cp /tmp/sdl2-build-arm64-v8a/libSDL2.so app/src/main/jniLibs/arm64-v8a/ || true
         cp /tmp/sdl2-build-armeabi-v7a/libSDL2.so app/src/main/jniLibs/armeabi-v7a/ || true
 
