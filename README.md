@@ -31,4 +31,4 @@ The Android build is done via GitHub Actions. Push to `master` to trigger a buil
 See [SRB2 Wiki/Source code compiling](http://wiki.srb2.org/wiki/Source_code_compiling). The compiling process for SRB2Kart is largely identical to SRB2.
 
 ## Disclaimer
-Kart Krew is in no way affiliated with SEGA or Sonic Team. We do not claim ownership of any of SEGA's intellectual property used in SRB2.
+This is an unofficial Android port and is not affiliated with, endorsed by, or connected to STJR, Kart Krew, or the original SRB2Kart developers in any way. Kart Krew is in no way affiliated with SEGA or Sonic Team. We do not claim ownership of any of SEGA's intellectual property used in SRB2.
