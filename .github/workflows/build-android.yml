@@ -43,8 +43,9 @@ jobs:
 
     - name: Build SDL2 for Android
       run: |
-        curl -L -o /tmp/SDL2.tar.gz "https://github.com/libsdl-org/SDL/releases/download/release-2.30.3/SDL2-2.30.3.tar.gz"
-        tar xzf /tmp/SDL2.tar.gz -d /tmp
+        cd /tmp
+        curl -L -o SDL2.tar.gz "https://github.com/libsdl-org/SDL/releases/download/release-2.30.3/SDL2-2.30.3.tar.gz"
+        tar xzf SDL2.tar.gz
         for ABI in arm64-v8a armeabi-v7a; do
           mkdir -p /tmp/sdl2-build-$ABI
           cmake -B /tmp/sdl2-build-$ABI \
@@ -59,7 +60,7 @@ jobs:
             -G Ninja \
             /tmp/SDL2-2.30.3
           cmake --build /tmp/sdl2-build-$ABI --parallel $(nproc)
-          echo "SDL2 $ABI built:"
+          echo "=== SDL2 $ABI built ==="
           find /tmp/sdl2-build-$ABI -name "libSDL2*.so" -exec ls -la {} \;
         done
 
@@ -78,9 +79,11 @@ jobs:
           -DSRB2_CONFIG_DISCORD_RPC=OFF \
           -DSRB2_CONFIG_HWRENDER=OFF \
           -DCMAKE_C_FLAGS="-O2 -DNDEBUG -DSTDC_HEADERS -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
-          -DCMAKE_EXE_LINKER_FLAGS="-L/tmp/sdl2-build-arm64-v8a -lSDL2" \
+          -DCMAKE_SHARED_LINKER_FLAGS="-L/tmp/sdl2-build-arm64-v8a" \
           -G Ninja
         cmake --build build-android-arm64 --parallel $(nproc)
+        echo "=== arm64 build output ==="
+        find build-android-arm64 -name "*.so" -exec ls -la {} \;
 
     - name: Build SRB2KART native (armeabi-v7a)
       run: |
@@ -97,9 +100,11 @@ jobs:
           -DSRB2_CONFIG_DISCORD_RPC=OFF \
           -DSRB2_CONFIG_HWRENDER=OFF \
           -DCMAKE_C_FLAGS="-O2 -DNDEBUG -DSTDC_HEADERS -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
-          -DCMAKE_EXE_LINKER_FLAGS="-L/tmp/sdl2-build-armeabi-v7a -lSDL2" \
+          -DCMAKE_SHARED_LINKER_FLAGS="-L/tmp/sdl2-build-armeabi-v7a" \
           -G Ninja
         cmake --build build-android-armv7 --parallel $(nproc)
+        echo "=== armv7 build output ==="
+        find build-android-armv7 -name "*.so" -exec ls -la {} \;
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
