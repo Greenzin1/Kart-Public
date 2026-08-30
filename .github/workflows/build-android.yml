@@ -56,7 +56,7 @@ jobs:
           -DSRB2_CONFIG_HAVE_CURL=OFF \
           -DSRB2_CONFIG_DISCORD_RPC=OFF \
           -DSRB2_CONFIG_HWRENDER=OFF \
-          -DCMAKE_C_FLAGS="-O2 -DNDEBUG -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
+          -DCMAKE_C_FLAGS="-O2 -DNDEBUG -DSTDC_HEADERS -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
           -G Ninja
         cmake --build build-android-arm64 --parallel $(nproc)
 
@@ -74,7 +74,7 @@ jobs:
           -DSRB2_CONFIG_HAVE_CURL=OFF \
           -DSRB2_CONFIG_DISCORD_RPC=OFF \
           -DSRB2_CONFIG_HWRENDER=OFF \
-          -DCMAKE_C_FLAGS="-O2 -DNDEBUG -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
+          -DCMAKE_C_FLAGS="-O2 -DNDEBUG -DSTDC_HEADERS -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
           -G Ninja
         cmake --build build-android-armv7 --parallel $(nproc)
 
