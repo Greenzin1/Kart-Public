@@ -75,11 +75,13 @@ jobs:
             -DANDROID_STL=c++_shared \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_C_FLAGS="-O2 -DNDEBUG" \
+            -DPNG_SHARED=OFF \
+            -DPNG_TESTS=OFF \
             -G Ninja \
             ${GITHUB_WORKSPACE}/libs/libpng-src
           cmake --build /tmp/png-build-$ABI --parallel $(nproc)
           echo "=== libpng $ABI built ==="
-          find /tmp/png-build-$ABI -name "libpng*.a" -o -name "libpng*.so" | head -5
+          find /tmp/png-build-$ABI -name "libpng*" | head -5
         done
 
     - name: Build SRB2KART native (arm64-v8a)
@@ -97,8 +99,8 @@ jobs:
           -DSRB2_CONFIG_DISCORD_RPC=OFF \
           -DSRB2_CONFIG_HWRENDER=OFF \
           -DCMAKE_C_FLAGS="-O2 -DNDEBUG -DSTDC_HEADERS -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
-          -DCMAKE_EXE_LINKER_FLAGS="-L/tmp/sdl2-build-arm64-v8a -L/tmp/png-build-arm64-v8a" \
-          -DCMAKE_SHARED_LINKER_FLAGS="-L/tmp/sdl2-build-arm64-v8a -L/tmp/png-build-arm64-v8a" \
+          -DCMAKE_EXE_LINKER_FLAGS="-L/tmp/sdl2-build-arm64-v8a /tmp/png-build-arm64-v8a/libpng12.a" \
+          -DCMAKE_SHARED_LINKER_FLAGS="-L/tmp/sdl2-build-arm64-v8a /tmp/png-build-arm64-v8a/libpng12.a" \
           -G Ninja
         cmake --build build-android-arm64 --parallel $(nproc)
         echo "=== arm64 build output ==="
