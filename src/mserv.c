@@ -57,6 +57,10 @@ static void Command_Listserv_f(void);
 
 #endif/*MASTERSERVER*/
 
+#ifndef MASTERSERVER
+void MasterClient_Ticker(void) {}
+#endif
+
 static void Update_parameters (void);
 
 static void MasterServer_OnChange(void);
