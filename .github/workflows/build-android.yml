@@ -51,10 +51,11 @@ jobs:
           -DANDROID_PLATFORM=android-26 \
           -DANDROID_STL=c++_shared \
           -DCMAKE_BUILD_TYPE=Release \
-          -DSRB2_CONFIG_USE_INTERNAL_LIBRARIES=ON \
+          -DSRB2_CONFIG_USE_INTERNAL_LIBRARIES=OFF \
           -DSRB2_CONFIG_SDL2_USEMIXER=OFF \
           -DSRB2_CONFIG_HAVE_CURL=OFF \
           -DSRB2_CONFIG_DISCORD_RPC=OFF \
+          -DSRB2_CONFIG_HWRENDER=OFF \
           -DCMAKE_C_FLAGS="-O2 -DNDEBUG" \
           -G Ninja
         cmake --build build-android-arm64 --parallel $(nproc)
@@ -68,10 +69,11 @@ jobs:
           -DANDROID_PLATFORM=android-26 \
           -DANDROID_STL=c++_shared \
           -DCMAKE_BUILD_TYPE=Release \
-          -DSRB2_CONFIG_USE_INTERNAL_LIBRARIES=ON \
+          -DSRB2_CONFIG_USE_INTERNAL_LIBRARIES=OFF \
           -DSRB2_CONFIG_SDL2_USEMIXER=OFF \
           -DSRB2_CONFIG_HAVE_CURL=OFF \
           -DSRB2_CONFIG_DISCORD_RPC=OFF \
+          -DSRB2_CONFIG_HWRENDER=OFF \
           -DCMAKE_C_FLAGS="-O2 -DNDEBUG" \
           -G Ninja
         cmake --build build-android-armv7 --parallel $(nproc)
@@ -82,14 +84,11 @@ jobs:
     - name: Build APK
       working-directory: android
       run: |
-        # Copy native libs
         mkdir -p app/src/main/jniLibs/arm64-v8a
         mkdir -p app/src/main/jniLibs/armeabi-v7a
         cp ../build-android-arm64/bin/*.so app/src/main/jniLibs/arm64-v8a/ || true
         cp ../build-android-armv7/bin/*.so app/src/main/jniLibs/armeabi-v7a/ || true
-        # List what we have
         find app/src/main/jniLibs -name "*.so" -exec ls -la {} \;
-        # Build APK
         ./gradlew assembleDebug
 
     - name: Upload APK
