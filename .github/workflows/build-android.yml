@@ -76,6 +76,7 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_C_FLAGS="-O2 -DNDEBUG" \
             -DPNG_SHARED=OFF \
+            -DPNG_NO_STDIO=OFF \
             -DPNG_TESTS=OFF \
             -G Ninja \
             ${GITHUB_WORKSPACE}/libs/libpng-src
