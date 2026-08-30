@@ -34,6 +34,14 @@ jobs:
     - name: Install CMake + Ninja
       run: sudo apt-get update && sudo apt-get install -y cmake ninja-build
 
+    - name: Download game assets
+      run: |
+        mkdir -p assets/installer
+        curl -L -o /tmp/assets.zip "https://github.com/STJr/Kart-Public/releases/download/v1.6/AssetsLinuxOnly.zip"
+        unzip -o /tmp/assets.zip -d /tmp/assets
+        cp /tmp/assets/srb2.srb /tmp/assets/gfx.kart /tmp/assets/textures.kart /tmp/assets/chars.kart /tmp/assets/maps.kart assets/installer/
+        ls -lh assets/installer/
+
     - name: Build SRB2KART native (arm64-v8a)
       run: |
         mkdir -p build-android-arm64
