@@ -15,6 +15,10 @@ if(ANDROID)
 	add_definitions(-DANDROID -DHAVE_SDL -DHAVE_THREADS -DUNIXCOMMON -DLINUX)
 endif()
 
+# Set defaults for availability flags before subdirectories
+set(SRB2_SDL2_AVAILABLE NO)
+set(SRB2_WIN32_AVAILABLE NO)
+
 # Set up CMAKE path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
