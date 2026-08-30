@@ -564,6 +564,7 @@ static void MasterServer_OnChange(void)
 static void
 Advertise_OnChange(void)
 {
+#ifdef MASTERSERVER
 	int different;
 
 	if (cv_advertise.value)
@@ -586,6 +587,7 @@ Advertise_OnChange(void)
 	{
 		UnregisterServer();
 	}
+#endif/*MASTERSERVER*/
 
 #ifdef HAVE_DISCORDRPC
 	DRPC_UpdatePresence();
