@@ -64,6 +64,24 @@ jobs:
           find /tmp/sdl2-build-$ABI -name "libSDL2*.so" -exec ls -la {} \;
         done
 
+    - name: Build libpng for Android
+      run: |
+        for ABI in arm64-v8a armeabi-v7a; do
+          mkdir -p /tmp/png-build-$ABI
+          cmake -B /tmp/png-build-$ABI \
+            -DCMAKE_TOOLCHAIN_FILE=$NDK_HOME/build/cmake/android.toolchain.cmake \
+            -DANDROID_ABI=$ABI \
+            -DANDROID_PLATFORM=android-26 \
+            -DANDROID_STL=c++_shared \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_FLAGS="-O2 -DNDEBUG" \
+            -G Ninja \
+            /tmp/srb2kart/libs/libpng-src
+          cmake --build /tmp/png-build-$ABI --parallel $(nproc)
+          echo "=== libpng $ABI built ==="
+          find /tmp/png-build-$ABI -name "libpng*.a" -o -name "libpng*.so" | head -5
+        done
+
     - name: Build SRB2KART native (arm64-v8a)
       run: |
         mkdir -p build-android-arm64
@@ -79,7 +97,7 @@ jobs:
           -DSRB2_CONFIG_DISCORD_RPC=OFF \
           -DSRB2_CONFIG_HWRENDER=OFF \
           -DCMAKE_C_FLAGS="-O2 -DNDEBUG -DSTDC_HEADERS -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
-          -DCMAKE_SHARED_LINKER_FLAGS="-L/tmp/sdl2-build-arm64-v8a" \
+          -DCMAKE_SHARED_LINKER_FLAGS="-L/tmp/sdl2-build-arm64-v8a -L/tmp/png-build-arm64-v8a" \
           -G Ninja
         cmake --build build-android-arm64 --parallel $(nproc)
         echo "=== arm64 build output ==="
@@ -100,7 +118,7 @@ jobs:
           -DSRB2_CONFIG_DISCORD_RPC=OFF \
           -DSRB2_CONFIG_HWRENDER=OFF \
           -DCMAKE_C_FLAGS="-O2 -DNDEBUG -DSTDC_HEADERS -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
-          -DCMAKE_SHARED_LINKER_FLAGS="-L/tmp/sdl2-build-armeabi-v7a" \
+          -DCMAKE_SHARED_LINKER_FLAGS="-L/tmp/sdl2-build-armeabi-v7a -L/tmp/png-build-armeabi-v7a" \
           -G Ninja
         cmake --build build-android-armv7 --parallel $(nproc)
         echo "=== armv7 build output ==="
@@ -118,6 +136,8 @@ jobs:
         cp ../build-android-armv7/bin/*.so app/src/main/jniLibs/armeabi-v7a/ || true
         cp /tmp/sdl2-build-arm64-v8a/libSDL2.so app/src/main/jniLibs/arm64-v8a/ || true
         cp /tmp/sdl2-build-armeabi-v7a/libSDL2.so app/src/main/jniLibs/armeabi-v7a/ || true
+        cp /tmp/png-build-arm64-v8a/libpng16.so app/src/main/jniLibs/arm64-v8a/ || true
+        cp /tmp/png-build-armeabi-v7a/libpng16.so app/src/main/jniLibs/armeabi-v7a/ || true
         find app/src/main/jniLibs -name "*.so" -exec ls -la {} \;
         ./gradlew assembleDebug
 
