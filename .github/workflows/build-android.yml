@@ -99,7 +99,7 @@ jobs:
           -DSRB2_CONFIG_HAVE_CURL=OFF \
           -DSRB2_CONFIG_DISCORD_RPC=OFF \
           -DSRB2_CONFIG_HWRENDER=OFF \
-          -DCMAKE_C_FLAGS="-O2 -DNDEBUG -DSTDC_HEADERS -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
+          -DCMAKE_C_FLAGS="-O2 -DNDEBUG -DSTDC_HEADERS -DFORCESDLMAIN -fvisibility=default -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
           -DCMAKE_EXE_LINKER_FLAGS="-L/tmp/sdl2-build-arm64-v8a -L/tmp/png-build-arm64-v8a" \
           -DCMAKE_SHARED_LINKER_FLAGS="-L/tmp/sdl2-build-arm64-v8a -L/tmp/png-build-arm64-v8a" \
           -G Ninja
@@ -121,7 +121,7 @@ jobs:
           -DSRB2_CONFIG_HAVE_CURL=OFF \
           -DSRB2_CONFIG_DISCORD_RPC=OFF \
           -DSRB2_CONFIG_HWRENDER=OFF \
-          -DCMAKE_C_FLAGS="-O2 -DNDEBUG -DSTDC_HEADERS -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
+          -DCMAKE_C_FLAGS="-O2 -DNDEBUG -DSTDC_HEADERS -DFORCESDLMAIN -fvisibility=default -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
           -DCMAKE_EXE_LINKER_FLAGS="-L/tmp/sdl2-build-armeabi-v7a -L/tmp/png-build-armeabi-v7a" \
           -DCMAKE_SHARED_LINKER_FLAGS="-L/tmp/sdl2-build-armeabi-v7a -L/tmp/png-build-armeabi-v7a" \
           -G Ninja
