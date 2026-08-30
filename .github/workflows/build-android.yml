@@ -76,7 +76,7 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_C_FLAGS="-O2 -DNDEBUG" \
             -G Ninja \
-            /tmp/srb2kart/libs/libpng-src
+            ${GITHUB_WORKSPACE}/libs/libpng-src
           cmake --build /tmp/png-build-$ABI --parallel $(nproc)
           echo "=== libpng $ABI built ==="
           find /tmp/png-build-$ABI -name "libpng*.a" -o -name "libpng*.so" | head -5
