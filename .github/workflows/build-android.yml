@@ -85,9 +85,6 @@ jobs:
     - name: Build SRB2KART native (arm64-v8a)
       run: |
         mkdir -p build-android-arm64
-        PNG_A=$(find /tmp/png-build-arm64-v8a -name "libpng12*.a" | head -1)
-        SDL_SO=$(find /tmp/sdl2-build-arm64-v8a -name "libSDL2*.so" | head -1)
-        echo "PNG=$PNG_A SDL=$SDL_SO"
         cmake -B build-android-arm64 \
           -DCMAKE_TOOLCHAIN_FILE=$NDK_HOME/build/cmake/android.toolchain.cmake \
           -DANDROID_ABI=arm64-v8a \
@@ -100,7 +97,8 @@ jobs:
           -DSRB2_CONFIG_DISCORD_RPC=OFF \
           -DSRB2_CONFIG_HWRENDER=OFF \
           -DCMAKE_C_FLAGS="-O2 -DNDEBUG -DSTDC_HEADERS -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
-          -DCMAKE_SHARED_LINKER_FLAGS="$SDL_SO -L$(dirname $PNG_A) -lpng12" \
+          -DCMAKE_EXE_LINKER_FLAGS="-L/tmp/sdl2-build-arm64-v8a -L/tmp/png-build-arm64-v8a" \
+          -DCMAKE_SHARED_LINKER_FLAGS="-L/tmp/sdl2-build-arm64-v8a -L/tmp/png-build-arm64-v8a" \
           -G Ninja
         cmake --build build-android-arm64 --parallel $(nproc)
         echo "=== arm64 build output ==="
@@ -109,8 +107,6 @@ jobs:
     - name: Build SRB2KART native (armeabi-v7a)
       run: |
         mkdir -p build-android-armv7
-        PNG_A=$(find /tmp/png-build-armeabi-v7a -name "libpng12*.a" | head -1)
-        SDL_SO=$(find /tmp/sdl2-build-armeabi-v7a -name "libSDL2*.so" | head -1)
         cmake -B build-android-armv7 \
           -DCMAKE_TOOLCHAIN_FILE=$NDK_HOME/build/cmake/android.toolchain.cmake \
           -DANDROID_ABI=armeabi-v7a \
@@ -123,7 +119,8 @@ jobs:
           -DSRB2_CONFIG_DISCORD_RPC=OFF \
           -DSRB2_CONFIG_HWRENDER=OFF \
           -DCMAKE_C_FLAGS="-O2 -DNDEBUG -DSTDC_HEADERS -I${GITHUB_WORKSPACE}/libs/SDL2/include -I${GITHUB_WORKSPACE}/libs/libpng-src" \
-          -DCMAKE_SHARED_LINKER_FLAGS="$SDL_SO -L$(dirname $PNG_A) -lpng12" \
+          -DCMAKE_EXE_LINKER_FLAGS="-L/tmp/sdl2-build-armeabi-v7a -L/tmp/png-build-armeabi-v7a" \
+          -DCMAKE_SHARED_LINKER_FLAGS="-L/tmp/sdl2-build-armeabi-v7a -L/tmp/png-build-armeabi-v7a" \
           -G Ninja
         cmake --build build-android-armv7 --parallel $(nproc)
         echo "=== armv7 build output ==="
