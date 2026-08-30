@@ -166,6 +166,7 @@ if(${SDL2_FOUND})
 			-DHAVE_THREADS
 			-DANDROID
 		)
+		set(SRB2_SDL2_AVAILABLE YES PARENT_SCOPE)
 		return()
 	endif()
 
